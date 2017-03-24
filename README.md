@@ -62,10 +62,11 @@ class NBayes(object):
 </pre>
 6.将测试集映射到当前词典
 <pre>
-   def map2vocab(self,testdata):
+    def map2vocab(self,testdata):
         self.testset = np.zeros([1,self.vocablen])
         for word in testdata:
-            self.testset[0,self.vocabulary.index(word)] += 1
+            if word in self.vocabulary:
+                self.testset[0,self.vocabulary.index(word)] += 1
 </pre>
 7.预测分类结果，输出预测的分类类别
 <pre>
@@ -86,11 +87,15 @@ class NBayes(object):
 <pre>
 count = 0
 nb = NBayes() 
+newlistclass = []
 nb.train_set(splitdata,listclass)
-for i in range(len(splitdata)):
-    nb.map2vocab(splitdata[i])
-    if nb.predict(nb.testset) == listclass[i]:
+for i in range(len(splitdata1)):
+    nb.map2vocab(splitdata1[i])
+    newlistclass.append(nb.predict(nb.testset))
+    if nb.predict(nb.testset) == listclass1[i]:
         count += 1
-print ('rate:',count/len(splitdata))
+#print (listclass)
+print (newlistclass)
+print ('rate:',count/len(splitdata1))
 </pre>
 
